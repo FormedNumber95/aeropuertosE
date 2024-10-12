@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.aketzagonzalez.aeropuertosE.tablaPersonasController">
@@ -15,7 +16,13 @@
             <TableColumn fx:id="idTablaEdad" editable="false" minWidth="0.0" prefWidth="162.4000244140625" text="Edad" />
          </columns>
       </TableView>
-      <Button fx:id="btnAniadir" mnemonicParsing="false" onAction="#aniadirPersona" text="Agregar Persona" />
+      <HBox alignment="CENTER" prefHeight="41.0" prefWidth="700.0" spacing="30.0">
+         <children>
+            <Button fx:id="btnAniadir" mnemonicParsing="false" onAction="#aniadirPersona" text="Agregar Persona" />
+            <Button fx:id="btnModificar" mnemonicParsing="false" onAction="#modificarPersona" text="Modificar Persona" />
+            <Button fx:id="btnEliminar" mnemonicParsing="false" onAction="#eliminarPersona" text="Eliminar Persona" />
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

@@ -24,6 +24,12 @@ public class tablaPersonasController {
     /** El btn aniadir. */
     @FXML
     private Button btnAniadir;
+    
+    @FXML
+    private Button btnEliminar;
+
+    @FXML
+    private Button btnModificar;
 
     /** El id tabla apellido. */
     @FXML
@@ -64,6 +70,16 @@ public class tablaPersonasController {
         s.initOwner(MainApp.getStage());
         s.initModality(javafx.stage.Modality.WINDOW_MODAL);
         s.show();
+    }
+    
+    @FXML
+    void eliminarPersona(ActionEvent event) {
+    	
+    }
+
+    @FXML
+    void modificarPersona(ActionEvent event) {
+    	
     }
     
     /**
