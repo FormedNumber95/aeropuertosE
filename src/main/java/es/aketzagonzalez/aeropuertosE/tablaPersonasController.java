@@ -6,9 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Persona;
@@ -74,7 +76,22 @@ public class tablaPersonasController {
     
     @FXML
     void eliminarPersona(ActionEvent event) {
-    	
+    	Alert al=new Alert(AlertType.CONFIRMATION);
+    	al.setHeaderText(null);
+    	if(tablaPersonas.getSelectionModel().getSelectedItem()!=null) {
+	    	al.setContentText("Estas seguro de que deseas borrar a: "+tablaPersonas.
+	    			getSelectionModel().getSelectedItem());
+	    	al.showAndWait();
+	    	if(al.getResult().getButtonData().name().equals("OK_DONE")) {
+	    		tablaPersonas.getItems().remove(tablaPersonas.getSelectionModel().
+	    				getSelectedItem());
+	    	}
+    	}else {
+    		al.setAlertType(AlertType.ERROR);
+    		al.setContentText("No hay nadie seleccionado, asi que no se puede seleccionar nadie");
+        	al.showAndWait();
+    	}
+    	tablaPersonas.getSelectionModel().clearSelection();
     }
 
     @FXML
