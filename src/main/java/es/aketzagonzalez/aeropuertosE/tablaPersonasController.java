@@ -27,9 +27,11 @@ public class tablaPersonasController {
     @FXML
     private Button btnAniadir;
     
+    /** El btn eliminar. */
     @FXML
     private Button btnEliminar;
 
+    /** El btn modificar. */
     @FXML
     private Button btnModificar;
 
@@ -48,6 +50,9 @@ public class tablaPersonasController {
     /** El tabla personas. */
     @FXML
     private TableView<Persona> tablaPersonas=new TableView<Persona>();
+    
+    /** Identificador de si añade o modifica la persona. */
+    private static boolean esAniadir=false;
 
     /**
      * Aniadir persona a la tabla llamando a una ventana modal.
@@ -56,6 +61,7 @@ public class tablaPersonasController {
      */
     @FXML
     void aniadirPersona(ActionEvent event) {
+    	esAniadir=true;
     	s=new Stage();
     	Scene scene;
 		try {
@@ -74,6 +80,11 @@ public class tablaPersonasController {
         s.show();
     }
     
+    /**
+     * Eliminar persona.
+     *
+     * @param event the event
+     */
     @FXML
     void eliminarPersona(ActionEvent event) {
     	Alert al=new Alert(AlertType.CONFIRMATION);
@@ -94,9 +105,44 @@ public class tablaPersonasController {
     	tablaPersonas.getSelectionModel().clearSelection();
     }
 
+    /**
+     * Modificar persona.
+     *
+     * @param event the event
+     */
     @FXML
     void modificarPersona(ActionEvent event) {
-    	
+    	esAniadir=false;
+    	if(tablaPersonas.getSelectionModel().getSelectedItem()!=null) {
+	    	s=new Stage();
+	    	Scene scene;
+			try {
+				 FXMLLoader controlador = new FXMLLoader(MainApp.class.getResource("/fxml/aniadirPersona.fxml"));
+				scene = new Scene(controlador.load());
+				s.setTitle("Modificar Persona");
+				s.setScene(scene);
+				aniadirPersonaController controller = controlador.getController();
+				controller.setTxtApellidosText(tablaPersonas.getSelectionModel().
+						getSelectedItem().getApellidos());
+				controller.setTxtEdadText(tablaPersonas.getSelectionModel().
+						getSelectedItem().getEdad()+"");
+				controller.setTxtNombreText(tablaPersonas.getSelectionModel().
+						getSelectedItem().getNombre());
+				controller.setTablaPersonas(tablaPersonas);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	        s.setResizable(false);
+	        s.initOwner(MainApp.getStage());
+	        s.initModality(javafx.stage.Modality.WINDOW_MODAL);
+	        s.show();
+    	}
+    	else {
+    		Alert al=new Alert(AlertType.ERROR);
+        	al.setHeaderText(null);
+        	al.setContentText("No hay nadie seleccionado, asi que no se puede seleccionar nadie");
+        	al.showAndWait();
+    	}
     }
     
     /**
@@ -116,6 +162,15 @@ public class tablaPersonasController {
 	 */
 	public static Stage getS() {
 		return s;
+	}
+
+	/**
+	 * Verifica si esta añadiendo una persona o modificandola.
+	 *
+	 * @return true, si esta añadiendo una persona
+	 */
+	public static boolean isEsAniadir() {
+		return esAniadir;
 	}
     
 }

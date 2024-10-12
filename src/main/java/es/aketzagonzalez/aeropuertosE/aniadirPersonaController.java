@@ -35,7 +35,7 @@ public class aniadirPersonaController {
     private TextField txtNombre;
     
     /** La tabla personas. */
-    private TableView<Persona> tablaPersonas;  // Referencia al TableView
+    private TableView<Persona> tablaPersonas; 
 
     /**
      * Comprueba que la persona introducida sea valida, y si lo es la añade a 
@@ -76,30 +76,46 @@ public class aniadirPersonaController {
     			existe=true;
     		}
     	}
-    	Alert al=new Alert(AlertType.INFORMATION);
-    	al.setHeaderText(null);
-    	if(!existe&&error.equals("")) {
-    		tablaPersonas.getItems().add(p);
-    		tablaPersonas.refresh();
+    	if(tablaPersonasController.isEsAniadir()) {
+	    	Alert al=new Alert(AlertType.INFORMATION);
+	    	al.setHeaderText(null);
+	    	if(error.equals("")&&!existe) {
+	    		tablaPersonas.getItems().add(p);
+	    		tablaPersonas.refresh();
+	    		al.setContentText("Persona añadida correctamente");
+	    	}else {
+	    		if(error.equals("")){
+	    			al.setAlertType(AlertType.WARNING);
+	    			error="La persona ya estaba en la lista";
+	    		}else {
+	    			al.setAlertType(AlertType.ERROR);
+	    		}
+	    		al.setContentText(error);
+	    	}
+	    	al.showAndWait();
+	    	tablaPersonas.getSelectionModel().clearSelection();
+	    	tablaPersonasController.getS().close();
     	}
-    	
-    	if(error.equals("")&&!existe) {
-    		al.setContentText("Persona añadida correctamente");
-    	}else {
-    		if(error.equals("")){
-    			al.setAlertType(AlertType.WARNING);
-    			error="La persona ya estaba en la lista";
-    		}else {
-    			al.setAlertType(AlertType.ERROR);
-    		}
-    		al.setContentText(error);
+    	else{
+    		Alert al=new Alert(AlertType.INFORMATION);
+	    	al.setHeaderText(null);
+	    	if(!existe&&error.equals("")) {
+	    		tablaPersonas.getItems().set(tablaPersonas.getSelectionModel().getSelectedIndex(), p);
+	    		tablaPersonas.refresh();
+	    		al.setContentText("Persona modificada correctamente");
+	    	}else {
+	    		if(error.equals("")){
+	    			al.setAlertType(AlertType.WARNING);
+	    			error="La persona ya estaba en la lista";
+	    		}else {
+	    			al.setAlertType(AlertType.ERROR);
+	    		}
+	    		al.setContentText(error);
+	    	}
+	    	al.showAndWait();
+	    	tablaPersonas.getSelectionModel().clearSelection();
+	    	tablaPersonasController.getS().close();
     	}
-    	al.showAndWait();
-    	txtApellidos.setText("");
-    	txtNombre.setText("");
-    	txtEdad.setText("");
-    	tablaPersonas.getSelectionModel().clearSelection();
-    	tablaPersonasController.getS().close();
     }
 
     /**
@@ -119,6 +135,33 @@ public class aniadirPersonaController {
 	 */
 	public void setTablaPersonas(TableView<Persona> tablaPersonas) {
 		this.tablaPersonas = tablaPersonas;
+	}
+	
+	/**
+	 * Setter del texto de los pellidos.
+	 *
+	 * @param apellidos Los nuevos apellidos
+	 */
+	public void setTxtApellidosText(String apellidos) {
+		this.txtApellidos.setText(apellidos);
+	}
+	
+	/**
+	 * Setter del texto del nombre.
+	 *
+	 * @param nombre El nuevo nombre
+	 */
+	public void setTxtNombreText(String nombre) {
+		this.txtNombre.setText(nombre);
+	}
+	
+	/**
+	 * Setter del texto de la edad.
+	 *
+	 * @param edad La nueva edad
+	 */
+	public void setTxtEdadText(String edad) {
+		this.txtEdad.setText(edad);
 	}
 
 }
